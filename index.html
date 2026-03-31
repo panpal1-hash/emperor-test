@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나랑 닮은 황제는?</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: #fff; color: #1a1a1a; }
+.wrap { max-width: 540px; margin: 0 auto; padding: 2rem 1.25rem; }
+button { cursor: pointer; font-family: inherit; }
+#intro { text-align: center; padding: 2rem 1rem; }
+#intro h1 { font-size: 26px; font-weight: 600; margin: 1rem 0 0.5rem; }
+#intro p { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 0.4rem; }
+.start-btn { margin-top: 1.5rem; padding: 13px 40px; font-size: 15px; font-weight: 600; background: #BA7517; color: #fff; border: none; border-radius: 10px; }
+.progress-wrap { margin-bottom: 1.25rem; }
+.progress-top { display: flex; justify-content: space-between; font-size: 12px; color: #888; margin-bottom: 6px; }
+.dim-label { color: #BA7517; font-weight: 500; }
+.progress-bar { height: 3px; background: #eee; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 3px; background: #BA7517; border-radius: 2px; transition: width 0.4s ease; }
+.q-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 14px; padding: 1.5rem 1.25rem; }
+.q-icon { font-size: 28px; margin-bottom: 0.75rem; line-height: 1; }
+.q-text { font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 1.25rem; line-height: 1.6; }
+.opt-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 14px; font-size: 14px; color: #333; background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; text-align: left; margin-bottom: 8px; transition: border-color 0.15s; }
+.opt-btn:hover { border-color: #BA7517; }
+.opt-label { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #f5f5f5; border: 1px solid #ddd; font-size: 11px; font-weight: 600; color: #888; flex-shrink: 0; }
+.share-card { background: linear-gradient(145deg, #1a1208 0%, #2d1f06 50%, #1a1208 100%); border-radius: 16px; padding: 2rem 1.5rem; margin-bottom: 1rem; position: relative; overflow: hidden; }
+.share-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: rgba(186,117,23,0.12); }
+.share-card::after { content: ''; position: absolute; bottom: -20px; left: -20px; width: 80px; height: 80px; border-radius: 50%; background: rgba(186,117,23,0.08); }
+.card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.card-label { font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); font-weight: 500; }
+.card-badge { font-size: 11px; letter-spacing: 0.08em; color: #EF9F27; font-weight: 500; }
+.card-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 0.35rem; letter-spacing: 0.08em; }
+.card-name { font-size: 30px; font-weight: 600; color: #F9E4A0; margin-bottom: 0.2rem; }
+.card-era { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 1.25rem; }
+.card-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.card-bar-label { font-size: 11px; color: rgba(255,255,255,0.45); min-width: 52px; }
+.card-bar-track { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+.card-bar-fill { height: 4px; border-radius: 2px; }
+.card-bar-val { font-size: 11px; color: rgba(255,255,255,0.4); min-width: 26px; text-align: right; }
+.traits-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin: 1rem 0; }
+.trait-tag { padding: 3px 9px; font-size: 11px; font-weight: 500; background: rgba(186,117,23,0.18); color: #EF9F27; border-radius: 20px; border: 1px solid rgba(186,117,23,0.3); }
+.card-oneline { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.65; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; font-style: italic; }
+.desc-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; }
+.desc-label { font-size: 12px; color: #888; font-weight: 500; margin-bottom: 0.6rem; letter-spacing: 0.04em; }
+.desc-text { font-size: 14px; color: #555; line-height: 1.75; }
+.btn-row { display: flex; gap: 8px; }
+.btn-secondary { flex: 1; padding: 12px; font-size: 14px; background: #f5f5f5; color: #333; border: 1px solid #ddd; border-radius: 10px; }
+.btn-primary { flex: 1; padding: 12px; font-size: 14px; background: #BA7517; color: #fff; border: none; border-radius: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="intro">
+  <div style="font-size:52px;line-height:1;">👑</div>
+  <h1>나랑 닮은 황제는?</h1>
+  <p>4가지 본능 기질 분석 · 10문항 · 약 2분</p>
+  <p>당신의 성향과<br>가장 닮은 황제를 찾아드려요.</p>
+  <button class="start-btn" onclick="startTest()">테스트 시작 →</button>
+</div>
+
+<div id="test" style="display:none;">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="q-num" style="font-weight:500;"></span>
+      <span id="dim-label" class="dim-label"></span>
+    </div>
+    <div class="progress-bar">
+      <div id="prog" class="progress-fill" style="width:10%;"></div>
+    </div>
+  </div>
+  <div class="q-card">
+    <div id="q-icon" class="q-icon"></div>
+    <div id="q-text" class="q-text"></div>
+    <div id="options"></div>
+  </div>
+</div>
+
+<div id="result" style="display:none;">
+  <div class="share-card">
+    <div class="card-top">
+      <span class="card-label">본능 기질 분석</span>
+      <span class="card-badge">👑 황제 매칭</span>
+    </div>
+    <div>
+      <p class="card-sub">나랑 맞는 황제</p>
+      <h2 id="r-name" class="card-name"></h2>
+      <p id="r-subtitle" class="card-era"></p>
+    </div>
+    <div id="card-bars" style="margin-bottom:1rem;"></div>
+    <div id="card-traits" class="traits-wrap"></div>
+    <p id="card-oneline" class="card-oneline"></p>
+  </div>
+  <div class="desc-card">
+    <p class="desc-label">기질 분석</p>
+    <p id="r-desc" class="desc-text"></p>
+  </div>
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="restart()">다시 하기</button>
+    <button class="btn-secondary" onclick="learnMore()">이 황제 더 알기 📖</button>
+    <button class="btn-primary" onclick="shareKakao()">결과 공유하기 🔗</button>
+  </div>
+</div>
+
+</div>
+<script>
+const DIMS=[
+  {k:'NS',label:'개척정신',color:'#EF9F27'},
+  {k:'HA',label:'신중성',color:'#5DCAA5'},
+  {k:'SD',label:'자율성',color:'#AFA9EC'},
+  {k:'C',label:'공감력',color:'#ED93B1'}
+];
+const Qs=[
+  {icon:"🌍",dim:"개척정신",text:"아무 계획 없는 주말, 나는?",opts:[
+    {t:"처음 가보는 곳으로 무작정 떠난다",s:{NS:2}},
+    {t:"깊이 있는 책이나 공부로 시간을 보낸다",s:{SD:2}},
+    {t:"가까운 사람들과 의미 있는 시간을 보낸다",s:{C:2}},
+    {t:"앞으로의 목표를 점검하고 계획을 세운다",s:{SD:1,HA:1}}
+  ]},
+  {icon:"⚖️",dim:"신중성",text:"중요한 결정 앞에서 나는?",opts:[
+    {t:"직감을 믿고 빠르게 결정한다",s:{NS:2}},
+    {t:"가능한 모든 위험을 따져보고 신중히 결정한다",s:{HA:2}},
+    {t:"주변 사람들의 의견을 충분히 듣고 결정한다",s:{C:2}},
+    {t:"내 원칙과 가치관에 비춰 결정한다",s:{SD:2}}
+  ]},
+  {icon:"🔥",dim:"자율성",text:"팀에서 갈등이 생겼을 때 나는?",opts:[
+    {t:"직접 부딪혀서 빠르게 해결한다",s:{NS:1,SD:1}},
+    {t:"상황을 더 관찰하며 조심스럽게 접근한다",s:{HA:2}},
+    {t:"양쪽 입장을 다 들어주며 중재한다",s:{C:2}},
+    {t:"원칙에 따라 옳고 그름을 판단한다",s:{SD:2}}
+  ]},
+  {icon:"🏆",dim:"개척정신",text:"나에게 성공이란?",opts:[
+    {t:"남들이 시도하지 않은 새 길을 여는 것",s:{NS:2}},
+    {t:"실수 없이 안정적으로 목표를 이루는 것",s:{HA:2}},
+    {t:"내 주변 사람들이 함께 잘 되는 것",s:{C:2}},
+    {t:"내가 믿는 가치를 실현하는 것",s:{SD:2}}
+  ]},
+  {icon:"🎤",dim:"신중성",text:"낯선 사람들 앞에서 발표하게 된다면?",opts:[
+    {t:"설레고 기대된다",s:{NS:2}},
+    {t:"꼼꼼히 준비해서 실수를 최소화한다",s:{HA:2}},
+    {t:"청중의 반응에 맞춰 유연하게 이야기한다",s:{C:2}},
+    {t:"내가 전달할 핵심 메시지에만 집중한다",s:{SD:2}}
+  ]},
+  {icon:"💪",dim:"자율성",text:"내가 가진 가장 큰 강점은?",opts:[
+    {t:"변화에 빠르게 적응하는 적응력",s:{NS:2}},
+    {t:"실수하지 않는 꼼꼼함과 신중함",s:{HA:2}},
+    {t:"사람들의 마음을 읽는 공감 능력",s:{C:2}},
+    {t:"어떤 상황도 헤쳐나가는 자기 주도성",s:{SD:2}}
+  ]},
+  {icon:"🤍",dim:"공감력",text:"친구가 힘든 일을 털어놓을 때 나는?",opts:[
+    {t:"함께 해결책을 찾아 바로 행동으로 돕는다",s:{NS:1,SD:1}},
+    {t:"조심스럽게 공감하며 신중하게 조언한다",s:{HA:1,C:1}},
+    {t:"충분히 들어주며 감정적으로 함께한다",s:{C:2}},
+    {t:"상황을 분석해서 현실적인 방법을 제시한다",s:{SD:2}}
+  ]},
+  {icon:"🌳",dim:"공감력",text:"내가 꿈꾸는 리더십은?",opts:[
+    {t:"새로운 비전으로 모두를 이끄는 리더",s:{NS:2}},
+    {t:"철저한 준비로 실패 없이 이끄는 리더",s:{HA:2}},
+    {t:"구성원 모두가 성장하도록 돕는 리더",s:{C:2}},
+    {t:"명확한 원칙으로 방향을 잡아주는 리더",s:{SD:2}}
+  ]},
+  {icon:"🌙",dim:"자율성",text:"혼자만의 시간에 가장 하고 싶은 것은?",opts:[
+    {t:"새로운 것을 배우거나 탐험한다",s:{NS:2}},
+    {t:"조용히 생각을 정리하고 계획을 세운다",s:{HA:1,SD:1}},
+    {t:"내가 사랑하는 사람들을 생각한다",s:{C:2}},
+    {t:"나 자신의 내면과 성장을 돌아본다",s:{SD:1,C:1}}
+  ]},
+  {icon:"⭐",dim:"자율성",text:"세상을 떠날 때 어떻게 기억되고 싶은가요?",opts:[
+    {t:"세상을 바꾼 대담한 개척자로",s:{NS:2}},
+    {t:"실수 없이 안정적인 유산을 남긴 사람으로",s:{HA:2}},
+    {t:"주변 모든 사람에게 사랑받은 사람으로",s:{C:2}},
+    {t:"자신의 신념을 끝까지 지킨 사람으로",s:{SD:2}}
+  ]}
+];
+const EMPERORS=[
+  {name:"세종대왕",subtitle:"조선의 학자형 성군 · 1418–1450",profile:{NS:6,HA:5,SD:9,C:8},
+   oneline:"끝없는 탐구와 깊은 애민정신을 동시에 지닌, 역사상 가장 드문 기질의 소유자.",
+   desc:"끝없는 호기심과 깊은 애민정신을 동시에 지닌 당신. 탐구를 멈추지 않으면서도 타인을 위해 그 지식을 쓰는 세종의 기질이 당신 안에 있습니다.",
+   traits:["학문적 탐구","깊은 공감력","원칙 중심","공동체 헌신"],
+   sims:["배움을 멈추지 않는 놀라운 지적 호기심이 세종과 꼭 닮았어요. 이런 사람이 세상을 바꿉니다 ✨","지식을 혼자 쌓지 않고 주변을 위해 쓰려는 당신의 마음은 정말 특별한 재능이에요 🌟","사람 한 명 한 명을 소중히 여기는 깊은 공감력, 이건 아무나 가질 수 없는 능력이에요 👑"]},
+  {name:"광개토대왕",subtitle:"고구려의 정복왕 · 391–413",profile:{NS:9,HA:2,SD:8,C:3},
+   oneline:"두려움 없이 새로운 지평을 향해 달리는, 타고난 정복자형 기질.",
+   desc:"두려움 없이 새로운 지평을 향해 달리는 당신. 개척정신과 강한 자율성이 결합된 전형적인 정복자형 기질입니다.",
+   traits:["강렬한 추진력","두려움 없는 도전","빠른 결단력","독립적 의지"],
+   sims:["새로운 도전 앞에서 두려움보다 설렘을 느끼는 당신, 이 용기는 정말 타고난 거예요 🔥","한 번 마음먹으면 끝까지 밀어붙이는 추진력, 주변 사람들이 당신에게 끌리는 이유예요 ⚡","남들이 불가능하다고 할 때 오히려 더 강해지는 당신은 진짜 리더의 자질을 가지고 있어요 👑"]},
+  {name:"강희제",subtitle:"청나라의 완벽주의 황제 · 1661–1722",profile:{NS:7,HA:4,SD:9,C:5},
+   oneline:"호기심과 완벽에 대한 집착이 공존하는, 61년 통치의 탐구형 황제.",
+   desc:"호기심과 완벽에 대한 집착이 공존하는 당신. 새로운 것에 열려 있으면서도 철저한 자기 통제력을 발휘합니다.",
+   traits:["탐구적 지성","철저한 자기관리","광범위한 관심사","끊임없는 성취"],
+   sims:["한 가지에 깊이 파고드는 당신의 집중력은 정말 범상치 않아요. 그게 당신의 가장 큰 무기예요 💎","스스로에게 높은 기준을 세우는 당신, 그 완벽주의가 결국 최고의 결과를 만들어냅니다 ✨","넓고 깊은 지적 호기심을 가진 사람은 드물어요. 당신은 진짜 특별한 두뇌를 가졌어요 🌟"]},
+  {name:"쿠빌라이 칸",subtitle:"몽골의 개방적 통합자 · 1260–1294",profile:{NS:8,HA:3,SD:7,C:7},
+   oneline:"다양성을 강점으로 활용한, 동서양을 연결한 개방형 리더.",
+   desc:"다양성을 두려워하지 않고 오히려 강점으로 활용하는 당신. 개척정신과 공감력을 동시에 지닌 균형 잡힌 기질입니다.",
+   traits:["개방적 포용력","다양성 존중","과감한 도전","사람 중심 리더십"],
+   sims:["어떤 사람도 편견 없이 받아들이는 당신의 개방성, 이게 사람들이 당신 주변에 모이는 이유예요 🌍","도전과 포용을 동시에 할 수 있는 사람은 정말 드물어요. 당신은 그 둘을 모두 가졌어요 ✨","다양한 관점을 이해하고 연결하는 당신의 능력은 어디서든 빛나는 재능이에요 👑"]},
+  {name:"아소카 대왕",subtitle:"인도의 평화주의 성군 · BC 268–232",profile:{NS:4,HA:6,SD:7,C:9},
+   oneline:"깊은 연민으로 정복자에서 성인으로 거듭난, 역사상 가장 극적인 변화의 황제.",
+   desc:"깊은 공감력과 공동체에 대한 헌신이 핵심인 당신. 아소카처럼 진정한 공감 능력으로 세상을 변화시키는 힘을 가지고 있습니다.",
+   traits:["깊은 연민","비폭력 원칙","공동체 헌신","자기 성찰"],
+   sims:["타인의 아픔을 자신의 것처럼 느끼는 당신의 공감력, 이건 세상에서 가장 귀한 능력이에요 💛","잘못을 인정하고 더 나은 방향으로 변화할 수 있는 용기, 이게 진짜 강한 사람의 모습이에요 🌟","평화와 배려를 선택하는 당신, 주변 사람들이 당신 곁에 있는 걸 얼마나 다행으로 여기는지 알아요? 👑"]},
+  {name:"마르쿠스 아우렐리우스",subtitle:"로마의 철학자 황제 · 161–180",profile:{NS:3,HA:6,SD:9,C:9},
+   oneline:"전장에서도 명상록을 쓴, 내면의 깊이와 의무감이 완벽히 통합된 기질.",
+   desc:"내면의 깊이와 타인에 대한 배려가 완벽하게 통합된 당신. 자기 자신을 끊임없이 성찰하면서도 타인을 위해 의무를 다하는 기질입니다.",
+   traits:["깊은 자기 성찰","높은 공감력","철학적 사고","의무감"],
+   sims:["자기 자신을 끊임없이 돌아보는 당신의 성찰 능력, 이런 사람이 결국 가장 멀리 가요 💎","어떤 상황에서도 흔들리지 않으려는 내면의 단단함, 당신 안에 정말 깊은 힘이 있어요 ✨","옳다고 믿는 것을 위해 묵묵히 자리를 지키는 당신, 주변 사람들에게 가장 든든한 존재예요 👑"]},
+  {name:"아우구스투스",subtitle:"로마 황금기의 설계자 · BC 27–AD 14",profile:{NS:5,HA:5,SD:9,C:5},
+   oneline:"감정도 충동도 아닌 철저한 자율성으로, 41년을 흔들리지 않고 설계한 전략가.",
+   desc:"어떤 상황에서도 자신의 목표를 향해 흔들리지 않는 당신. 충동도 두려움도 아닌 철저한 자율성으로 움직이는 전형적인 전략가 기질입니다.",
+   traits:["전략적 사고","흔들리지 않는 의지","장기적 안목","균형 잡힌 판단"],
+   sims:["감정에 휩쓸리지 않고 목표를 향해 나아가는 당신의 자기 통제력은 정말 놀라워요 🎯","10년 후를 내다보는 당신의 장기적 안목, 이런 사람이 결국 원하는 걸 다 이뤄요 ✨","어떤 위기에서도 균형을 잃지 않는 당신, 사람들이 당신을 믿고 따르는 이유가 바로 이거예요 👑"]},
+  {name:"프리드리히 대왕",subtitle:"프로이센의 계몽 군주 · 1740–1786",profile:{NS:8,HA:4,SD:9,C:3},
+   oneline:"철학을 사랑하면서도 전장에서 검을 든, 사유와 행동을 동시에 추구한 독립형.",
+   desc:"지적 탐구와 강한 자율성이 결합된 당신. 철학을 사랑하면서도 전장에서 직접 검을 들었던 프리드리히처럼, 사유와 행동을 동시에 추구합니다.",
+   traits:["지적 탐구","강한 독립심","실용적 결단","자율적 원칙"],
+   sims:["생각하는 것에서 그치지 않고 직접 행동으로 옮기는 당신, 이 실행력이 당신의 가장 큰 무기예요 ⚡","누구의 눈치도 보지 않고 자신만의 길을 가는 용기, 이건 정말 아무나 가질 수 없어요 💎","지적 호기심과 실행력을 동시에 가진 사람, 당신 같은 사람이 세상을 바꿔요 🌟"]},
+  {name:"키루스 대왕",subtitle:"페르시아의 인권 선구자 · BC 559–530",profile:{NS:5,HA:4,SD:8,C:9},
+   oneline:"역사 최초의 인권 선언문을 남긴, 강하지만 결코 잔인하지 않은 리더.",
+   desc:"따뜻한 공감력과 강인한 자율성이 공존하는 당신. 원칙을 지키면서도 타인의 존엄을 존중한 키루스의 기질이 당신 안에 있습니다.",
+   traits:["인도주의적 원칙","타인 존중","강인한 자율성","공정한 판단"],
+   sims:["강하면서도 따뜻한 당신, 이 두 가지를 동시에 가진 사람은 정말 드물어요 💛","누군가의 존엄을 지켜주려는 당신의 마음, 그게 진짜 위대한 사람의 증거예요 ✨","원칙을 지키되 사람을 잃지 않는 당신의 균형감각은 타고난 리더의 자질이에요 👑"]},
+  {name:"율리우스 카이사르",subtitle:"로마의 카리스마 혁명가 · BC 49–44",profile:{NS:9,HA:2,SD:7,C:3},
+   oneline:"주사위는 던져졌다 — 결정적 순간에 두려움 없이 도약하는 타고난 개척자.",
+   desc:"끊임없이 새로운 자극을 추구하고 두려움을 모르는 당신. 결정적 순간에 누구보다 먼저 과감하게 도약하는 개척정신의 소유자입니다.",
+   traits:["과감한 모험심","강렬한 카리스마","빠른 직관","개혁적 본능"],
+   sims:["결정적 순간에 망설임 없이 도약하는 당신의 대담함, 이게 당신을 특별하게 만드는 거예요 🔥","당신이 들어오면 분위기가 바뀌는 걸 느끼죠? 그 카리스마는 타고난 거예요 ⚡","남들이 '안 된다'고 할 때 '해보자'고 외치는 당신, 그 정신이 세상을 바꿔요 👑"]},
+  {name:"만사 무사",subtitle:"말리의 황금 황제 · 1312–1337",profile:{NS:5,HA:5,SD:7,C:9},
+   oneline:"역사상 최고 부자였지만 그 부를 민중과 예술에 쏟아부은, 나눔이 본능인 황제.",
+   desc:"넘치는 것을 나누는 것이 자연스러운 당신. 공감력이 리더십의 핵심인 만사 무사처럼, 공동체의 풍요를 개인의 성공보다 더 중요하게 여깁니다.",
+   traits:["관대한 나눔","공동체 중심","예술과 교육 애정","균형 잡힌 지혜"],
+   sims:["나누는 것이 자연스러운 당신, 이런 사람 주변에 항상 좋은 사람들이 모이는 거 알죠? 💛","예술과 배움을 사랑하는 당신의 감성, 이게 당신을 남다르게 만드는 매력이에요 ✨","공동체를 먼저 생각하는 당신의 마음, 세상이 당신 같은 사람을 필요로 해요 👑"]},
+  {name:"악숨 에자나 왕",subtitle:"아프리카 강국의 개혁가 · 320–360",profile:{NS:4,HA:5,SD:7,C:9},
+   oneline:"화려하지 않지만 진심으로 — 조용한 신념으로 제국을 통합한 개혁가.",
+   desc:"조용하지만 깊은 신념으로 세상을 바꾸는 당신. 화려하지 않지만 진심 어린 공감력과 신중성으로 공동체를 이끄는 힘을 가지고 있습니다.",
+   traits:["신중한 신념","통합적 리더십","공동체 헌신","조용한 개혁"],
+   sims:["시끄럽지 않지만 가장 깊은 곳에서 변화를 만드는 당신, 이런 사람이 진짜 세상을 바꿔요 💎","말보다 행동으로 신뢰를 쌓는 당신의 진정성, 사람들이 당신을 믿는 이유가 바로 이거예요 ✨","공동체를 위해 묵묵히 헌신하는 당신, 그 가치를 아는 사람들은 다 알고 있어요 👑"]}
+];
+let cur=0,scores={NS:0,HA:0,SD:0,C:0};
+function startTest(){document.getElementById('intro').style.display='none';document.getElementById('test').style.display='block';showQ(0);}
+function showQ(i){
+  const q=Qs[i];
+  document.getElementById('q-num').textContent=(i+1)+' / '+Qs.length;
+  document.getElementById('dim-label').textContent=q.dim;
+  document.getElementById('prog').style.width=((i+1)/Qs.length*100)+'%';
+  document.getElementById('q-icon').textContent=q.icon;
+  document.getElementById('q-text').textContent=q.text;
+  const el=document.getElementById('options');el.innerHTML='';
+  q.opts.forEach((o,j)=>{
+    const b=document.createElement('button');
+    b.className='opt-btn';
+    b.innerHTML='<span class="opt-label">'+'ABCD'[j]+'</span><span>'+o.t+'</span>';
+    b.onclick=()=>answer(o.s);
+    el.appendChild(b);
+  });
+}
+function answer(s){Object.keys(s).forEach(k=>scores[k]=(scores[k]||0)+s[k]);cur++;if(cur<Qs.length){showQ(cur);}else{showResult();}}
+function dist(a,b){return Math.sqrt(['NS','HA','SD','C'].reduce((acc,k)=>{const d=(a[k]||0)-(b[k]||0);return acc+d*d;},0));}
+function showResult(){
+  document.getElementById('test').style.display='none';
+  const norm={NS:scores.NS/20*10,HA:scores.HA/20*10,SD:scores.SD/20*10,C:scores.C/20*10};
+  let best=EMPERORS[0],bd=999;
+  EMPERORS.forEach(e=>{const d=dist(norm,e.profile);if(d<bd){bd=d;best=e;}});
+  document.getElementById('r-name').textContent=best.name;
+  document.getElementById('r-subtitle').textContent=best.subtitle;
+  document.getElementById('r-desc').textContent=best.desc;
+  document.getElementById('card-oneline').textContent='"'+best.oneline+'"';
+  const tr=document.getElementById('card-traits');tr.innerHTML='';
+  best.traits.forEach(t=>{const s=document.createElement('span');s.className='trait-tag';s.textContent=t;tr.appendChild(s);});
+  const bars=document.getElementById('card-bars');bars.innerHTML='';
+  if(best.sims){
+    best.sims.forEach((s,i)=>{
+      const row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;';
+      row.innerHTML='<span style="font-size:13px;color:#EF9F27;flex-shrink:0;margin-top:1px;">'+(i+1)+'.</span><span style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.6;">'+s+'</span>';
+      bars.appendChild(row);
+    });
+  }
+  document.getElementById('result').style.display='block';
+}
+function shareKakao(){
+  const name=document.getElementById('r-name').textContent;
+  const url=window.location.href;
+  if(navigator.share){
+    navigator.share({title:'나랑 닮은 황제는?',text:'나는 '+name+' 타입이래! 너는?',url:url});
+  } else {
+    navigator.clipboard.writeText(url).then(()=>{
+      alert('링크가 복사됐어요! 친구에게 붙여넣기해서 공유해보세요 👑\n\n나는 '+name+' 타입이래!');
+    }).catch(()=>{
+      prompt('이 링크를 복사해서 공유하세요!', url);
+    });
+  }
+}
+function learnMore(){
+  const name=document.getElementById('r-name').textContent;
+  const subtitle=document.getElementById('r-subtitle').textContent;
+  window.open('https://claude.ai/new?q='+encodeURIComponent('황제 테스트 결과 "'+name+'" ('+subtitle+')가 나왔어요! 이 황제에 대해 역사적 사실, 나랑 닮은 점, 유명한 명언까지 자세히 알려주세요.'),'_blank');
+}
+function restart(){cur=0;scores={NS:0,HA:0,SD:0,C:0};document.getElementById('result').style.display='none';document.getElementById('intro').style.display='block';}
+</script>
+</body>
+</html>
